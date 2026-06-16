@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ai Academy — Нейросети для обычного пользователя</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .media-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .media-card h2 {
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3B82F6;
+            padding-left: 1rem;
+        }
+        .btn-download {
+            display: inline-block;
+            background: #10B981;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        .video-local {
+            width: 100%;
+            border-radius: 1rem;
+        }
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0f172a;
+            border-radius: 50px;
+            padding: 10px 15px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .accessibility-toolbar button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 30px;
+        }
+        .accessibility-toolbar button:hover {
+            background: #3B82F6;
+        }
+        .high-contrast {
+            background: black !important;
+            color: yellow !important;
+        }
+        .high-contrast .media-card {
+            background: #111 !important;
+            color: #ff0 !important;
+        }
+        body.font-size-1 { font-size: 1.05rem; }
+        body.font-size-2 { font-size: 1.1rem; }
+        body.font-size-3 { font-size: 1.15rem; }
+        body.font-size-4 { font-size: 1.2rem; }
+        body.font-size-5 { font-size: 1.25rem; }
+        body.font-size-6 { font-size: 1.3rem; }
+        body.font-size-7 { font-size: 1.35rem; }
+        body.font-size-8 { font-size: 1.4rem; }
+        body.font-size-9 { font-size: 1.45rem; }
+        body.font-size-10 { font-size: 1.5rem; }
+    </style>
+</head>
+<body id="main-body">
+
+<div class="top-banner">
+    <img src="шапка.png" alt="Header" class="header-banner-img">
+</div>
+
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="Логотип.png" alt="Ai Academy" class="logo-img">
+            <a id="logo-link">Ai Academy</a>
+        </div>
+        <ul class="nav-links">
+            <li><a id="nav-main" class="active">Главная</a></li>
+            <li><a id="nav-courses">Курсы</a></li>
+            <li><a id="nav-contacts">Контакты</a></li>
+        </ul>
+        <div><a id="nav-call" class="btn-outline">Записаться</a></div>
+    </div>
+</div>
+
+<div id="courseModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<main id="app-root">
+    <div id="page-main">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <h1>Нейросети, которые работают на вас</h1>
+                        <p>Без кода. Без сложностей. ChatGPT, Midjourney, Kandinsky — для учёбы, работы и творчества.</p>
+                        <a id="hero-btn" class="btn-primary">Погнали</a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="Баннер.png" alt="Иллюстрация нейросетей" class="hero-banner">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="container">
+            <h2 class="section-title">Почему выбирают нас</h2>
+            <div class="features-grid">
+                <div class="feature-card"><img src="Кастомка1.png" class="feature-img"><h3>Простыми словами</h3><p>Объясняем сложные концепции доступно для каждого.</p></div>
+                <div class="feature-card"><img src="Кастомка2.png" class="feature-img"><h3>Практические навыки</h3><p>Применение знаний сразу после обучения.</p></div>
+                <div class="feature-card"><img src="Кастомка3.png" class="feature-img"><h3>Поддержка экспертов</h3><p>Помощь от опытных специалистов 24/7.</p></div>
+                <div class="feature-card"><img src="Кастомка4.png" class="feature-img"><h3>Гибкий график</h3><p>Учитесь в удобном для вас темпе.</p></div>
+            </div>
+        </section>
+
+        <section class="container">
+            <h2 class="section-title">Наши курсы</h2>
+            <div class="courses-grid" id="courses-preview"></div>
+        </section>
+
+        <div class="container">
+            <div class="media-card">
+                <h2>🎥 Обучающее видео: как писать промпты</h2>
+                <video class="video-local" controls>
+                    <source src="video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="media-card">
+                <h2>📘 Методичка «30 промптов для нейросетей»</h2>
+                <a href="metodichka.pdf" class="btn-download" download>📥 Скачать методичку (PDF)</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-courses" style="display: none;">
+        <div class="container">
+            <section>
+                <h2 class="section-title">Все курсы</h2>
+                <div class="courses-grid" id="all-courses-list"></div>
+            </section>
+        </div>
+    </div>
+
+    <div id="page-contacts" style="display: none;">
+        <div class="container">
+            <section>
+                <h2 class="section-title">Запишитесь на курс</h2>
+                <div class="contact-grid">
+                    <div class="info-card">
+                        <h3>✉️ Обратная связь</h3>
+                        <form id="contact-form" action="https://formspree.io/f/xrevjbge" method="POST">
+                            <div class="form-group"><label>Ваше имя *</label><input type="text" name="name" placeholder="Иван Иванов" required></div>
+                            <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="ivan@example.com" required></div>
+                            <div class="form-group"><label>Telegram</label><input type="text" name="telegram" placeholder="@username"></div>
+                            <div class="form-group"><label>Выберите курс</label>
+                                <select name="course">
+                                    <option>Введение в нейросети</option>
+                                    <option>ChatGPT продвинутый</option>
+                                    <option>Генерация изображений</option>
+                                    <option>Продвинутые промпты</option>
+                                    <option>Нейросети для дизайна</option>
+                                    <option>ИИ для работы</option>
+                                    <option>Нейросети для видео</option>
+                                    <option>ИИ для бизнеса</option>
+                                    <option>Безопасность в ИИ</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Сообщение</label><textarea name="message" rows="3" placeholder="Ваш вопрос" required></textarea></div>
+                            <button type="submit" class="btn-primary">📩 Отправить заявку</button>
+                        </form>
+                        <p id="formStatus" style="margin-top: 1rem; color: #10B981;"></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>📞 Контакты</h3>
+                        <p><strong>📧 Email:</strong> dima26719472@gmail.com</p>
+                        <p><strong>📱 Telegram:</strong> @Dhhsjwksdw</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="page-detail" style="display: none;">
+        <div class="container">
+            <section>
+                <button id="back-to-courses" class="back-button">← Назад к курсам</button>
+                <div id="detail-content"></div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<div class="accessibility-toolbar">
+    <button id="increaseFont">🔍 A+</button>
+    <button id="resetFont">🔍 A</button>
+    <button id="highContrast">🌓 Контраст</button>
+    <button id="resetContrast">⚡ Сброс</button>
+</div>
+
+<footer>
+    <div class="container footer-grid">
+        <div><h4>🤖 Ai Academy</h4><p>ИИ для обычных людей</p></div>
+        <div><h4>🧭 Навигация</h4><p><a id="footer-main">Главная</a><br><a id="footer-courses">Курсы</a><br><a id="footer-contacts">Контакты</a></p></div>
+        <div><h4>📬 Контакты</h4><p>📧 dima26719472@gmail.com<br>📱 @Dhhsjwksdw</p></div>
+    </div>
+</footer>
+
+<script>
+    // Данные курсов
+    const mainCoursesInfo = {
+        1: { title: "Введение в нейросети", desc: "Изучите основы искусственного интеллекта.", lessons: 3, icon: "🧠" },
+        2: { title: "ChatGPT продвинутый", desc: "Освойте промпт-инжиниринг.", lessons: 3, icon: "💬" },
+        3: { title: "Генерация изображений", desc: "Kandinsky, Midjourney.", lessons: 3, icon: "🎨" },
+        4: { title: "Продвинутые промпты", desc: "Цепочки промптов, анализ данных.", lessons: 3, icon: "⚡" },
+        5: { title: "Нейросети для дизайна", desc: "Логотипы, баннеры.", lessons: 2, icon: "✏️" },
+        6: { title: "ИИ для работы", desc: "Деловая переписка, презентации.", lessons: 2, icon: "💼" },
+        7: { title: "Нейросети для видео", desc: "Runway, Pika, озвучка.", lessons: 2, icon: "🎬" },
+        8: { title: "ИИ для бизнеса", desc: "Чат-боты, аналитика.", lessons: 2, icon: "📈" },
+        9: { title: "Безопасность в ИИ", desc: "Фишинг, дипфейки.", lessons: 2, icon: "🔒" }
+    };
+
+    const fullCoursesData = {
+        1: { title: "Введение в нейросети", desc: "", lessons: [{ title: "Что такое ИИ", content: "<p>ИИ — это технология, которая позволяет компьютерам имитировать человеческий интеллект.</p>" }] },
+        2: { title: "ChatGPT продвинутый", desc: "", lessons: [{ title: "Промпты", content: "<p>Промпт — это запрос к нейросети.</p>" }] },
+        3: { title: "Генерация изображений", desc: "", lessons: [{ title: "Kandinsky", content: "<p>Kandinsky — бесплатная нейросеть от Сбера.</p>" }] },
+        4: { title: "Продвинутые промпты", desc: "", lessons: [{ title: "Цепочки", content: "<p>Разбивайте задачу на этапы.</p>" }] },
+        5: { title: "Нейросети для дизайна", desc: "", lessons: [{ title: "Логотип", content: "<p>Midjourney генерирует логотипы.</p>" }] },
+        6: { title: "ИИ для работы", desc: "", lessons: [{ title: "Письма", content: "<p>ChatGPT пишет письма клиентам.</p>" }] },
+        7: { title: "Нейросети для видео", desc: "", lessons: [{ title: "Генерация", content: "<p>Runway Gen-2 создаёт видео.</p>" }] },
+        8: { title: "ИИ для бизнеса", desc: "", lessons: [{ title: "Чат-бот", content: "<p>DeepSeek API для чат-бота.</p>" }] },
+        9: { title: "Безопасность в ИИ", desc: "", lessons: [{ title: "Фишинг", content: "<p>Не переводите деньги по голосовому звонку.</p>" }] }
+    };
+
+    const allCoursesList = Object.keys(fullCoursesData).map(id => ({ id: parseInt(id), title: fullCoursesData[id].title }));
+
+    function renderMainCourses() {
+        const container = document.getElementById('courses-preview');
+        if (container) {
+            container.innerHTML = allCoursesList.map(c => `<div class="course-card"><div class="course-img">${mainCoursesInfo[c.id]?.icon || '🤖'}</div><div class="course-info"><h3>${c.title}</h3><p>${mainCoursesInfo[c.id]?.desc.substring(0, 70)}...</p><a class="course-link" data-id="${c.id}">Подробнее →</a></div></div>`).join('');
+            document.querySelectorAll('#courses-preview .course-link').forEach(link => { link.addEventListener('click', (e) => { e.stopPropagation(); const courseId = parseInt(link.dataset.id); const course = mainCoursesInfo[courseId]; if (course) { document.getElementById('modal-body').innerHTML = `<h3>${course.icon} ${course.title}</h3><p><strong>📖 Описание:</strong> ${course.desc}</p><p><strong>📚 Уроков:</strong> ${course.lessons}</p><ul><li>✅ Практические задания</li><li>✅ Доступ 24/7</li><li>✅ Сертификат</li></ul><p style="margin-top: 1rem; color: #3B82F6;">👉 Полная версия в разделе «Курсы»</p>`; document.getElementById('courseModal').style.display = 'flex'; } }); });
+        }
+    }
+
+    function renderFullCoursesList() {
+        const container = document.getElementById('all-courses-list');
+        if (container) {
+            container.innerHTML = allCoursesList.map(c => `<div class="course-card"><div class="course-img">${mainCoursesInfo[c.id]?.icon || '🤖'}</div><div class="course-info"><h3>${c.title}</h3><p>${fullCoursesData[c.id]?.desc || ''}</p><a class="course-link full-detail-link" data-id="${c.id}">📖 Открыть курс →</a></div></div>`).join('');
+            document.querySelectorAll('.full-detail-link').forEach(link => { link.addEventListener('click', (e) => { e.stopPropagation(); const courseId = parseInt(link.dataset.id); showFullDetailPage(courseId); }); });
+        }
+    }
+
+    function showFullDetailPage(courseId) {
+        const course = fullCoursesData[courseId];
+        if (!course) return;
+        document.getElementById('detail-content').innerHTML = `<div class="course-detail"><div class="course-video"><div class="text-lesson" id="lesson-content">${course.lessons[0].content}</div><div class="course-header"><h2>${mainCoursesInfo[courseId]?.icon || '📚'} ${course.title}</h2><p>${course.desc}</p></div></div><div class="course-sidebar"><h3>📖 Содержание (${course.lessons.length} уроков)</h3><ul class="lesson-list">${course.lessons.map((l, idx) => `<li data-lesson="${idx}">📘 ${l.title}</li>`).join('')}</ul><div class="course-progress"><p>🎓 После курса:</p><ul><li>Сертификат</li><li>Доступ к чату</li><li>Практика</li></ul></div></div></div>`;
+        document.querySelectorAll('.lesson-list li').forEach(li => { li.addEventListener('click', (e) => { const idx = parseInt(li.dataset.lesson); document.getElementById('lesson-content').innerHTML = course.lessons[idx].content; document.querySelectorAll('.lesson-list li').forEach(l => l.classList.remove('active')); li.classList.add('active'); }); });
+        document.getElementById('page-main').style.display = 'none'; document.getElementById('page-courses').style.display = 'none'; document.getElementById('page-contacts').style.display = 'none'; document.getElementById('page-detail').style.display = 'block'; updateActiveLink('courses');
+    }
+
+    function showMainPage() { document.getElementById('page-main').style.display = 'block'; document.getElementById('page-courses').style.display = 'none'; document.getElementById('page-contacts').style.display = 'none'; document.getElementById('page-detail').style.display = 'none'; updateActiveLink('main'); }
+    function showCoursesPage() { document.getElementById('page-main').style.display = 'none'; document.getElementById('page-courses').style.display = 'block'; document.getElementById('page-contacts').style.display = 'none'; document.getElementById('page-detail').style.display = 'none'; renderFullCoursesList(); updateActiveLink('courses'); }
+    function showContactsPage() { document.getElementById('page-main').style.display = 'none'; document.getElementById('page-courses').style.display = 'none'; document.getElementById('page-contacts').style.display = 'block'; document.getElementById('page-detail').style.display = 'none'; updateActiveLink('contacts'); }
+    function updateActiveLink(page) { document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active')); if (page === 'main') document.getElementById('nav-main')?.classList.add('active'); if (page === 'courses') document.getElementById('nav-courses')?.classList.add('active'); if (page === 'contacts') document.getElementById('nav-contacts')?.classList.add('active'); }
+
+    const modal = document.getElementById('courseModal'); const closeBtn = document.querySelector('.modal-close'); if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none'; window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+    document.getElementById('nav-main')?.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+    document.getElementById('nav-courses')?.addEventListener('click', (e) => { e.preventDefault(); showCoursesPage(); });
+    document.getElementById('nav-contacts')?.addEventListener('click', (e) => { e.preventDefault(); showContactsPage(); });
+    document.getElementById('footer-main')?.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+    document.getElementById('footer-courses')?.addEventListener('click', (e) => { e.preventDefault(); showCoursesPage(); });
+    document.getElementById('footer-contacts')?.addEventListener('click', (e) => { e.preventDefault(); showContactsPage(); });
+    document.getElementById('hero-btn')?.addEventListener('click', (e) => { e.preventDefault(); showCoursesPage(); });
+    document.getElementById('nav-call')?.addEventListener('click', (e) => { e.preventDefault(); showContactsPage(); });
+    document.getElementById('logo-link')?.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+    document.getElementById('back-to-courses')?.addEventListener('click', () => { showCoursesPage(); });
+
+    // Отправка формы
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('formStatus');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            try {
+                const response = await fetch('sendmail.php', { method: 'POST', body: formData });
+                const result = await response.text();
+                if (result === 'success') {
+                    formStatus.innerHTML = '✅ Спасибо! Ваша заявка отправлена. Мы свяжемся с вами.';
+                    formStatus.style.color = '#10B981';
+                    contactForm.reset();
+                } else {
+                    formStatus.innerHTML = '❌ Ошибка отправки. Попробуйте позже.';
+                    formStatus.style.color = '#EF4444';
+                }
+            } catch (error) {
+                formStatus.innerHTML = '❌ Ошибка отправки. Попробуйте позже.';
+                formStatus.style.color = '#EF4444';
+            }
+            setTimeout(() => { formStatus.innerHTML = ''; }, 5000);
+        });
+    }
+
+    // Доступность
+    let fontSizeLevel = 0;
+    document.getElementById('increaseFont')?.addEventListener('click', () => {
+        if (fontSizeLevel < 10) {
+            fontSizeLevel++;
+            document.body.classList.remove('font-size-1', 'font-size-2', 'font-size-3', 'font-size-4', 'font-size-5', 'font-size-6', 'font-size-7', 'font-size-8', 'font-size-9', 'font-size-10');
+            document.body.classList.add(`font-size-${fontSizeLevel}`);
+        }
+    });
+    document.getElementById('resetFont')?.addEventListener('click', () => {
+        fontSizeLevel = 0;
+        document.body.classList.remove('font-size-1', 'font-size-2', 'font-size-3', 'font-size-4', 'font-size-5', 'font-size-6', 'font-size-7', 'font-size-8', 'font-size-9', 'font-size-10');
+    });
+    document.getElementById('highContrast')?.addEventListener('click', () => { document.body.classList.add('high-contrast'); });
+    document.getElementById('resetContrast')?.addEventListener('click', () => { document.body.classList.remove('high-contrast'); });
+
+    renderMainCourses(); showMainPage();
+</script>
+</body>
+</html>
